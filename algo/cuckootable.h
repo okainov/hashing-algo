@@ -6,7 +6,7 @@
 
 using namespace std;
 
-const int MAX_DEEP = 10;
+const int MAX_DEEP = 10; //Should be near log(size)
 
 class HashTableCuckoo: public AbstractHashTable
 {
