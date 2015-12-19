@@ -6,7 +6,7 @@
 
 using namespace std;
 
-const int MAX_DEEP = 3;
+const int MAX_DEEP = 10;
 
 class HashTableCuckoo: public AbstractHashTable
 {

@@ -17,7 +17,7 @@ HashTableCuckoo::HashTableCuckoo( int size/*=0*/ )
 	p1 = 35317;
 	a2 = 7;
 	b2 = 23;
-	p1 = 35317;
+	p1 = 33391;
 }
 
 int HashTableCuckoo::hash1( T elem )

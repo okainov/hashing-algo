@@ -7,13 +7,14 @@
 
 int main()
 {
-	int n = 990;
-	HashTableCuckoo table(1000);
-
+	int n = 60;
+	HashTableCuckoo table(100);
+	int number;
 	for (int i=0; i<n; i++)
 	{
-		table.add(i);
-		printf("%d", (int)table.lookup(i));
+		number = rand();
+		table.add(number);
+		printf("%d", (int)table.lookup(number));
 	}	
 	table.printUsageDetails();
 
