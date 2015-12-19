@@ -18,6 +18,9 @@ private:
 	int myHash(T elem);
 	list<T>::iterator findIter(T elem);
 
+	int nAtomicOperations;
+	int nBigOperations;
+
 public:
 	HashTableChains(int size=0);
 	virtual ~HashTableChains();

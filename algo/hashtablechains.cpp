@@ -6,6 +6,7 @@ HashTableChains::HashTableChains(int size/* =0 */)
 {
 	this->size = size;
 	data = new list<T>[size];
+	nBigOperations = nAtomicOperations = 0;
 }
 
 HashTableChains::~HashTableChains()
@@ -17,8 +18,11 @@ HashTableChains::~HashTableChains()
 
 void HashTableChains::add( T elem )
 {
+	nBigOperations++;
+	nAtomicOperations++; //O(1)
+
 	int index = myHash(elem);
-	printf("Inserting into %d\n", index);
+	//printf("Inserting into %d\n", index);
 	data[index].push_back(elem);
 
 }
@@ -26,6 +30,8 @@ void HashTableChains::add( T elem )
 bool HashTableChains::lookup( T elem )
 {
 	int index = myHash(elem);
+	nBigOperations++;
+	nAtomicOperations += data[index].size(); //O(n), but less
 
 	if (this->findIter(elem) != data[index].end())
 		return true;
@@ -52,14 +58,20 @@ void HashTableChains::printUsageDetails()
 		if (min_size > current_size)
 			min_size = current_size;		
 	}
-	printf("Max size: %d\nMin size: %d\nTotal elements: %d\nAverage size: %lf", max_size, min_size, nOfElements, (double)nOfElements/size);
+	printf("Max size: %d\nMin size: %d\nTotal elements: %d\nAverage size: %lf\n# Operations: %d\n# atomic operations: %d", 
+		max_size, min_size, nOfElements, (double)nOfElements/size, nBigOperations, nAtomicOperations);
 
 }
 
 void HashTableChains::remove( T elem )
 {
 	int index = myHash(elem);
-	data[index].erase(this->findIter(elem));
+
+	nBigOperations++;
+	nAtomicOperations += data[index].size(); //O(n), but less
+
+	if (this->findIter(elem) != data[index].end())
+		data[index].erase(this->findIter(elem));
 }
 
 list<T>::iterator HashTableChains::findIter( T elem )

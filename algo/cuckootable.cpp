@@ -1,10 +1,5 @@
 #include "cuckootable.h"
-
-
-void HashTableCuckoo::add( T elem )
-{
-	internalAdd(elem, 0);
-}
+#include "math.h"
 
 HashTableCuckoo::HashTableCuckoo( int size/*=0*/ )
 {
@@ -18,6 +13,9 @@ HashTableCuckoo::HashTableCuckoo( int size/*=0*/ )
 	a2 = 7;
 	b2 = 23;
 	p1 = 33391;
+
+	 MAX_DEEP = int(3*logf(size));
+	nBigOperations = nAtomicOperations = 0;
 }
 
 int HashTableCuckoo::hash1( T elem )
@@ -30,28 +28,48 @@ int HashTableCuckoo::hash2( T elem )
 	return ((a2*elem + b2) % p2) % size;
 }
 
-void HashTableCuckoo::internalAdd( T elem, int deep )
+void HashTableCuckoo::add( T elem)
 {
-	if (deep > MAX_DEEP)
-		rehash();
-	int ind1 = hash1(elem);
-	int ind2 = hash2(elem);
-	if (data[ind1] == INT_MAX) //empty
-		data[ind1] = elem;
-	else if (data[ind2] == INT_MAX) //empty
-		data[ind2] = elem;
-	else
+	nBigOperations++; 
+	bool ElemAdded = false;
+	int deep = 0;
+	while (!ElemAdded)
 	{
-		T old_elem = data[ind2];
-		data[ind2] = elem;
-		internalAdd(old_elem, deep + 1);
+		nAtomicOperations += 2;
+		if (deep > MAX_DEEP)
+		{
+			rehash();
+			deep = 0;
+		}
+		int ind1 = hash1(elem);
+		int ind2 = hash2(elem);
+		if (data[ind1] == INT_MAX) //empty
+		{
+			data[ind1] = elem;
+			ElemAdded = true;
+			break;
+		}
+		else if (data[ind2] == INT_MAX) //empty
+		{
+			data[ind2] = elem;
+			ElemAdded = true;
+			break;
+		}
+		else
+		{
+			T old_elem = data[ind2];
+			data[ind2] = elem;
+			elem = old_elem;			
+		}
+		deep++;
 	}
 
 }
 
 void HashTableCuckoo::rehash()
 {
-	printf ("Rehashing...\n");
+	nAtomicOperations += size; //O(n)
+	//printf ("Rehashing...\n");
 	T* old_data = new T[size];
 	memcpy(old_data, data, size*sizeof(T));
 
@@ -71,6 +89,8 @@ void HashTableCuckoo::rehash()
 
 bool HashTableCuckoo::lookup( T elem )
 {
+	nBigOperations++; 
+	nAtomicOperations += 2; //O(1)
 	int ind1 = hash1(elem);
 	int ind2 = hash2(elem);
 	if (data[ind1] == elem || data[ind2] == elem)
@@ -81,6 +101,8 @@ bool HashTableCuckoo::lookup( T elem )
 
 void HashTableCuckoo::remove( T elem )
 {
+	nBigOperations++; 
+	nAtomicOperations += 2; //O(1)
 	int ind1 = hash1(elem);
 	int ind2 = hash2(elem);
 	if (data[ind1] == elem)
@@ -92,6 +114,8 @@ void HashTableCuckoo::remove( T elem )
 
 void HashTableCuckoo::printUsageDetails()
 {
+	printf("# Operations: %d\n# atomic operations: %d", 
+		nBigOperations, nAtomicOperations);
 
 }
 
