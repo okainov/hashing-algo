@@ -2,16 +2,15 @@
 
 #include <cstdlib>
 #include <list>
+#include "abstracthashtable.h"
 
 using namespace std;
-typedef int (*HashFunction)();
-typedef int T;
 
 const int A = 3;
 const int B = 19;
 const int P = 227; //Please make sure it's more than size
 
-class HashTableChains 
+class HashTableChains: public AbstractHashTable
 {
 private:
 	list<T>* data;
@@ -21,10 +20,10 @@ private:
 
 public:
 	HashTableChains(int size=0);
-	~HashTableChains();
-	void add(T elem);
-	bool lookup(T elem);
-	void remove(T elem);
-	void printUsageDetails();
+	virtual ~HashTableChains();
+	virtual void add(T elem);
+	virtual bool lookup(T elem);
+	virtual void remove(T elem);
+	virtual void printUsageDetails();
 
 };
