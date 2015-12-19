@@ -6,16 +6,17 @@
 
 int main()
 {
-	int n = 100;
-	double* inputData = new double[n];
-	HashTableChains table(n);
+	int n = 300;
+	HashTableChains table(100);
 
 	for (int i=0; i<n; i++)
 	{
 		table.add(i);
+		if (i%2 == 0)
+			table.remove(i);
 		printf("%d", (int)table.lookup(i));
 	}	
+	table.printUsageDetails();
 
-	delete[] inputData;
 	return 0;
 }
