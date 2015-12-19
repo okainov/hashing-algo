@@ -11,10 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cuckootable.cpp" />
     <ClCompile Include="hashtablechains.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="abstracthashtable.h" />
+    <ClInclude Include="cuckootable.h" />
     <ClInclude Include="hashtablechains.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -2,18 +2,17 @@
 #include "math.h"
 #include <cstdlib>
 #include "hashtablechains.h"
+#include "cuckootable.h"
 
 
 int main()
 {
-	int n = 300;
-	HashTableChains table(100);
+	int n = 990;
+	HashTableCuckoo table(1000);
 
 	for (int i=0; i<n; i++)
 	{
 		table.add(i);
-		if (i%2 == 0)
-			table.remove(i);
 		printf("%d", (int)table.lookup(i));
 	}	
 	table.printUsageDetails();

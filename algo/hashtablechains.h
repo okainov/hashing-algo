@@ -8,7 +8,7 @@ using namespace std;
 
 const int A = 3;
 const int B = 19;
-const int P = 227; //Please make sure it's more than size
+const int P = 35317; //Please make sure it's more than size
 
 class HashTableChains: public AbstractHashTable
 {
