@@ -11,7 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="hashtablechains.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="hashtablechains.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{55D2A87C-7FFC-4029-8036-C44A9B9F7255}</ProjectGuid>
