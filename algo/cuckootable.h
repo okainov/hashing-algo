@@ -14,12 +14,14 @@ private:
 	T* data;
 	int size;
 	int MAX_DEEP;
+	int primeNumbers[40];
 
 	int hash1(T elem);
 	int hash2(T elem);
 	void rehash();
 
 	void internalAdd(T elem, int deep);
+	void generateHashes();
 
 	int a1, b1, p1;
 	int a2, b2, p2;
