@@ -8,6 +8,7 @@ HashTableCuckoo::HashTableCuckoo( int size/*=0*/ )
 	for (int i=0; i<size; i++)
 		data[i] = INT_MAX; //empty indicator
 
+	primeNumbers = new int[primesSize];
 	//Pretty random P's
 	primeNumbers[0]=99551;primeNumbers[1]=99559;primeNumbers[2]=99563;primeNumbers[3]=99571;primeNumbers[4]=99577;
 	primeNumbers[5]=99581;primeNumbers[6]=99607;primeNumbers[7]=99611;primeNumbers[8]=99623;primeNumbers[9]=99643;
@@ -19,14 +20,8 @@ HashTableCuckoo::HashTableCuckoo( int size/*=0*/ )
 	primeNumbers[35]=99907;primeNumbers[36]=99923;primeNumbers[37]=99929;primeNumbers[38]=99961;primeNumbers[39]=99971;
 
 	//Not really random P's
-	//primeNumbers[0]=35317;primeNumbers[1]=35317;primeNumbers[2]=35317;primeNumbers[3]=35317;primeNumbers[4]=35317;
-	//primeNumbers[5]=35317;primeNumbers[6]=35317;primeNumbers[7]=35317;primeNumbers[8]=35317;primeNumbers[9]=35317;
-	//primeNumbers[10]=35317;primeNumbers[11]=35317;primeNumbers[12]=35317;primeNumbers[13]=35317;primeNumbers[14]=35317;
-	//primeNumbers[15]=35317;primeNumbers[16]=35317;primeNumbers[17]=35317;primeNumbers[18]=35317;primeNumbers[19]=35317;		
-	//primeNumbers[20]=35317;primeNumbers[21]=35317;primeNumbers[22]=35317;primeNumbers[23]=35317;primeNumbers[24]=35317;
-	//primeNumbers[25]=35317;primeNumbers[26]=35317;primeNumbers[27]=35317;primeNumbers[28]=35317;primeNumbers[29]=35317;
-	//primeNumbers[30]=35317;primeNumbers[31]=35317;primeNumbers[32]=35317;primeNumbers[33]=35317;primeNumbers[34]=35317;
-	//primeNumbers[35]=35317;primeNumbers[36]=35317;primeNumbers[37]=35317;primeNumbers[38]=35317;primeNumbers[39]=35317;
+	//for (int i=0; i<primesSize; i++)
+	//	primeNumbers[i] = 35317;
 
 	generateHashes();
 	MAX_DEEP = int(3*logf(size));
@@ -137,13 +132,16 @@ HashTableCuckoo::~HashTableCuckoo()
 	this->size = 0;
 	delete[] data;
 	data = NULL;
+
+	delete[] primeNumbers;
+	primeNumbers = NULL;
 }
 
 void HashTableCuckoo::generateHashes()
 {
-	int prime_indicator = rand() % 40;
+	int prime_indicator = rand() % primesSize;
 	p1 = primeNumbers[prime_indicator];
-	prime_indicator = rand() % 40;
+	prime_indicator = rand() % primesSize;
 	p2 = primeNumbers[prime_indicator];
 
 	a1 = rand() % (p1 - 1) + 1;

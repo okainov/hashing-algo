@@ -14,7 +14,8 @@ private:
 	T* data;
 	int size;
 	int MAX_DEEP;
-	int primeNumbers[40];
+	static const int primesSize = 40;
+	int* primeNumbers;
 
 	int hash1(T elem);
 	int hash2(T elem);
