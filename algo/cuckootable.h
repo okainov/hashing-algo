@@ -11,8 +11,9 @@ using namespace std;
 class HashTableCuckoo: public AbstractHashTable
 {
 private:
-	T* data;
-	int size;
+	T* data_1;
+	T* data_2;
+	int half_size;
 	int MAX_DEEP;
 	static const int primesSize = 40;
 	int* primeNumbers;
