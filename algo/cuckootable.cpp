@@ -24,7 +24,7 @@ HashTableCuckoo::HashTableCuckoo( int size/*=0*/ )
 	//	primeNumbers[i] = 35317;
 
 	generateHashes();
-	MAX_DEEP = int(3*logf(size));
+	MAX_DEEP = int(8*logf(size));
 	nBigOperations = nAtomicOperations = 0;
 }
 
@@ -43,6 +43,8 @@ void HashTableCuckoo::add( T elem)
 	nBigOperations++; 
 	bool ElemAdded = false;
 	int deep = 0;
+	int index = hash1(elem);
+
 	while (!ElemAdded)
 	{
 		nAtomicOperations += 2;
@@ -50,26 +52,24 @@ void HashTableCuckoo::add( T elem)
 		{
 			rehash();
 			deep = 0;
+			index = hash1(elem);
 		}
-		int ind1 = hash1(elem);
-		int ind2 = hash2(elem);
-		if (data[ind1] == INT_MAX) //empty
+
+		if (data[index] == INT_MAX) //empty
 		{
-			data[ind1] = elem;
-			ElemAdded = true;
-			break;
-		}
-		else if (data[ind2] == INT_MAX) //empty
-		{
-			data[ind2] = elem;
+			data[index] = elem;
 			ElemAdded = true;
 			break;
 		}
 		else
 		{
-			T old_elem = data[ind2];
-			data[ind2] = elem;
-			elem = old_elem;			
+			T old_elem = data[index];
+			data[index] = elem;
+			elem = old_elem;
+			if (hash1(old_elem) == index)
+				index = hash2(old_elem);
+			else
+				index = hash1(old_elem);
 		}
 		deep++;
 	}
